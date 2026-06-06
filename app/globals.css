@@ -27,6 +27,7 @@ section[id] {
   scroll-margin-top: 6rem;
 }
 
+
 /* ===== CUSTOM CURSOR ===== */
 @media (pointer: fine) {
   body.has-custom-cursor,
