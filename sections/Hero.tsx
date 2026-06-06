@@ -49,7 +49,7 @@ export function Hero() {
         >
           {PERSONAL_INFO.name}
           <br className="hidden sm:block" />
-          <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-slate-100 via-blue-200 to-indigo-300 bg-clip-text text-transparent">
             {PERSONAL_INFO.lastName}
           </span>
         </motion.h1>
@@ -90,25 +90,25 @@ export function Hero() {
         </motion.div>
       </motion.div>
 
-      <motion.div
+      <motion.button
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 8, 0] }}
         transition={{ delay: 1.2, duration: 2.5, repeat: Infinity }}
-        className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 sm:bottom-8"
+        onClick={() => document.querySelector('#impact')?.scrollIntoView({ behavior: 'smooth' })}
+        className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 sm:bottom-8 flex flex-col items-center gap-2 cursor-pointer border-none bg-transparent hover:text-white transition-colors duration-300 group"
+        aria-label="Desplazarse a sección de impacto"
       >
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-xs font-medium text-gray-500 sm:text-sm">Desplázate</span>
-          <svg
-            className="h-4 w-4 text-blue-400/80 sm:h-5 sm:w-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
-      </motion.div>
+        <span className="text-xs font-medium text-gray-500 group-hover:text-blue-300 transition-colors sm:text-sm">Desplázate</span>
+        <svg
+          className="h-4 w-4 text-blue-400/80 group-hover:text-blue-300 transition-colors sm:h-5 sm:w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </motion.button>
     </section>
   );
 }

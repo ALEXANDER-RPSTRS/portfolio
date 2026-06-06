@@ -31,7 +31,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     // Variantes
     const variantClasses: Record<string, string> = {
-      primary: 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50',
+      primary: 'bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-600 hover:to-indigo-700 text-white shadow-lg shadow-blue-900/40 hover:shadow-blue-800/40 border border-blue-600/20',
       secondary: 'bg-white/10 hover:bg-white/15 text-white border border-white/20 hover:border-white/30',
       outline: 'border border-white/20 hover:bg-white/10 text-white hover:border-white/40',
       ghost: 'hover:bg-white/10 text-white hover:text-white',

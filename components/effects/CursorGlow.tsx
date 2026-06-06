@@ -12,9 +12,14 @@ export function CursorGlow() {
   // Coordenadas base de movimiento
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  // Capa 2: Aro interactivo (Resorte medio, lag elástico muy orgánico)
-  const ringX = useSpring(mouseX, { damping: 30, stiffness: 200, mass: 0.6 });
-  const ringY = useSpring(mouseY, { damping: 30, stiffness: 200, mass: 0.6 });
+
+  // Capa 1: Núcleo de diamante de alta visibilidad (Muy rápido y preciso)
+  const dotX = useSpring(mouseX, { damping: 45, stiffness: 750, mass: 0.15 });
+  const dotY = useSpring(mouseY, { damping: 45, stiffness: 750, mass: 0.15 });
+
+  // Capa 2: Aro de diamante elástico (Resorte medio, lag elástico muy orgánico)
+  const ringX = useSpring(mouseX, { damping: 28, stiffness: 180, mass: 0.6 });
+  const ringY = useSpring(mouseY, { damping: 28, stiffness: 180, mass: 0.6 });
 
   // Capa 3: Brillo de fondo ambiental (Resorte lento para sensación de estela flotante)
   const glowX = useSpring(mouseX, { damping: 40, stiffness: 100, mass: 1 });
@@ -92,19 +97,19 @@ export function CursorGlow() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[9999]">
-      {/* 1. Capa 3: Brillo ambiental degradado (estela lenta) */}
+      {/* 1. Brillo ambiental degradado de fondo (Estela suave de color) */}
       <motion.div
         style={{
           x: glowX,
           y: glowY,
           translateX: '-50%',
           translateY: '-50%',
-          background: 'radial-gradient(circle, rgba(96,165,250,0.12) 0%, rgba(139,92,246,0.06) 40%, transparent 70%)',
-          filter: 'blur(8px)',
+          background: 'radial-gradient(circle, rgba(96,165,250,0.12) 0%, rgba(139,92,246,0.06) 45%, transparent 70%)',
+          filter: 'blur(12px)',
         }}
         animate={{
-          width: hoverState === 'pointer' ? 420 : hoverState === 'project' ? 480 : hoverState === 'text' ? 180 : 320,
-          height: hoverState === 'pointer' ? 420 : hoverState === 'project' ? 480 : hoverState === 'text' ? 180 : 320,
+          width: hoverState === 'pointer' ? 380 : hoverState === 'project' ? 440 : hoverState === 'text' ? 120 : 280,
+          height: hoverState === 'pointer' ? 380 : hoverState === 'project' ? 440 : hoverState === 'text' ? 120 : 280,
           opacity: isVisible ? (hoverState === 'pointer' || hoverState === 'project' ? 0.9 : 0.6) : 0,
         }}
         transition={{
@@ -115,7 +120,7 @@ export function CursorGlow() {
         className="fixed left-0 top-0 will-change-transform"
       />
 
-      {/* 2. Capa 2: Aro interactivo elástico */}
+      {/* 2. Diamante elástico de seguimiento (Contraste alto) */}
       <motion.div
         style={{
           x: ringX,
@@ -124,121 +129,69 @@ export function CursorGlow() {
           translateY: '-50%',
         }}
         animate={{
-          width: hoverState === 'pointer' ? 64 : hoverState === 'project' ? 88 : hoverState === 'text' ? 0 : 32,
-          height: hoverState === 'pointer' ? 64 : hoverState === 'project' ? 88 : hoverState === 'text' ? 0 : 32,
+          width: hoverState === 'pointer' ? 52 : hoverState === 'project' ? 72 : hoverState === 'text' ? 12 : 28,
+          height: hoverState === 'pointer' ? 52 : hoverState === 'project' ? 72 : hoverState === 'text' ? 12 : 28,
+          rotate: hoverState === 'pointer' ? 135 : hoverState === 'project' ? 225 : hoverState === 'text' ? 90 : 45,
           borderColor:
             hoverState === 'pointer'
-              ? 'rgba(139, 92, 246, 0.8)' // Púrpura en enlaces
+              ? '#a855f7' // Púrpura más brillante en enlaces
               : hoverState === 'project'
-              ? 'rgba(96, 165, 250, 0.7)' // Azul en proyectos
-              : 'rgba(96, 165, 250, 0.35)', // Azul tenue base
+              ? '#3b82f6' // Azul más brillante en proyectos
+              : 'rgba(96, 165, 250, 0.65)', // Azul base contrastante
           backgroundColor:
             hoverState === 'pointer'
-              ? 'rgba(139, 92, 246, 0.08)'
+              ? 'rgba(168, 85, 247, 0.16)'
               : hoverState === 'project'
-              ? 'rgba(96, 165, 250, 0.08)'
-              : 'rgba(96, 165, 250, 0.02)',
-          scale: isClicked ? 0.85 : 1,
-          opacity: isVisible && hoverState !== 'text' ? 1 : 0,
+              ? 'rgba(59, 130, 246, 0.16)'
+              : 'rgba(96, 165, 250, 0.05)',
+          borderRadius: hoverState === 'text' ? '1px' : '4px',
+          scale: isClicked ? 0.8 : 1,
+          opacity: isVisible ? (hoverState === 'text' ? 0.3 : 1) : 0,
         }}
         transition={{
           type: 'spring',
-          stiffness: 400,
-          damping: 30,
-          mass: 0.2,
+          stiffness: 350,
+          damping: 28,
+          mass: 0.3,
         }}
-        className="fixed left-0 top-0 border border-solid flex items-center justify-center will-change-transform shadow-[0_0_15px_rgba(96,165,250,0.05)] rounded-full"
+        className="fixed left-0 top-0 border-[2px] border-solid will-change-transform flex items-center justify-center shadow-[0_0_15px_rgba(96,165,250,0.2)]"
       >
-        {/* Texto interno exclusivo para proyectos */}
+        {/* Sub-elemento decorativo interno para proyectos */}
         <AnimatePresence>
           {hoverState === 'project' && (
-            <motion.span
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              transition={{ duration: 0.15 }}
-              className="text-[10px] font-bold tracking-[0.2em] text-blue-300 pointer-events-none select-none uppercase font-sans"
-            >
-              Ver
-            </motion.span>
+            <motion.div
+              initial={{ opacity: 0, scale: 0, rotate: 0 }}
+              animate={{ opacity: 1, scale: 1, rotate: 90 }}
+              exit={{ opacity: 0, scale: 0, rotate: 0 }}
+              transition={{ duration: 0.25 }}
+              className="w-4 h-4 border-[1.5px] border-blue-400 bg-blue-500/20 rounded-[2px]"
+            />
           )}
         </AnimatePresence>
       </motion.div>
 
-      {/* 3. Capa 1: Cursor de flecha de Windows personalizado y dinámico */}
+      {/* 3. Núcleo central de diamante de alta visibilidad (Sólido y con brillo blanco) */}
       <motion.div
         style={{
           x: mouseX,
           y: mouseY,
-          translateX: hoverState === 'text' ? '-50%' : '-4px',
-          translateY: hoverState === 'text' ? '-50%' : '-3px',
+          translateX: '-50%',
+          translateY: '-50%',
         }}
         animate={{
-          rotate: hoverState === 'pointer' ? 12 : hoverState === 'project' ? -15 : 0,
-          scale: isClicked ? 0.85 : hoverState === 'pointer' ? 1.1 : hoverState === 'project' ? 1.15 : 1,
+          width: hoverState === 'text' ? 0 : hoverState === 'pointer' ? 6 : hoverState === 'project' ? 6 : 8,
+          height: hoverState === 'text' ? 0 : hoverState === 'pointer' ? 6 : hoverState === 'project' ? 6 : 8,
+          rotate: 45,
+          scale: isClicked ? 1.4 : 1,
           opacity: isVisible ? 1 : 0,
         }}
         transition={{
           type: 'spring',
-          stiffness: 500,
-          damping: 28,
+          stiffness: 550,
+          damping: 30,
         }}
-        className="fixed left-0 top-0 will-change-transform"
-      >
-        <svg
-          width="28"
-          height="28"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="drop-shadow-[0_2px_8px_rgba(59,130,246,0.35)]"
-        >
-          <defs>
-            {/* Degradado por defecto (Azul a Púrpura) */}
-            <linearGradient id="cursor-grad-default" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#60a5fa" />
-              <stop offset="100%" stopColor="#8b5cf6" />
-            </linearGradient>
-            {/* Degradado sobre enlaces (Púrpura a Rosa) */}
-            <linearGradient id="cursor-grad-pointer" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#a855f7" />
-              <stop offset="100%" stopColor="#ec4899" />
-            </linearGradient>
-            {/* Degradado sobre proyectos (Azul a Cian) */}
-            <linearGradient id="cursor-grad-project" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#3b82f6" />
-              <stop offset="100%" stopColor="#06b6d4" />
-            </linearGradient>
-          </defs>
-
-          {hoverState === 'text' ? (
-            // Icono de I-Beam para selección de texto
-            <path
-              d="M8,4 H16 M12,4 V20 M8,20 H16"
-              stroke="url(#cursor-grad-default)"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          ) : (
-            // Flecha clásica de Windows estilizada con degradados
-            <path
-              d="M4,3 L4,20 L9.5,14.5 L13.5,22 L16,20.5 L12,13 L17.5,13 Z"
-              fill={
-                hoverState === 'pointer'
-                  ? 'url(#cursor-grad-pointer)'
-                  : hoverState === 'project'
-                  ? 'url(#cursor-grad-project)'
-                  : 'url(#cursor-grad-default)'
-              }
-              stroke="#ffffff"
-              strokeWidth="1.5"
-              strokeLinejoin="round"
-            />
-          )}
-        </svg>
-      </motion.div>
+        className="fixed left-0 top-0 rounded-[1.5px] bg-white shadow-[0_0_12px_rgba(255,255,255,0.95),0_0_4px_rgba(96,165,250,0.8)] will-change-transform"
+      />
     </div>
   );
 }
-

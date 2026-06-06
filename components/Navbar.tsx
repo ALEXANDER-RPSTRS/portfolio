@@ -43,12 +43,12 @@ export default function Navbar() {
           className="group flex items-center gap-3 rounded-full pr-2 text-left transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
           data-cursor-hover
         >
-          <span className="relative flex size-10 items-center justify-center rounded-full border border-white/12 bg-white/5 shadow-lg shadow-blue-500/10 md:size-11">
-            <span className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/20 via-violet-400/10 to-transparent opacity-80" />
-            <span className="relative size-2.5 rounded-full bg-gradient-to-br from-blue-300 to-violet-300 shadow-[0_0_18px_rgba(96,165,250,0.75)]" />
+          <span className="relative flex size-10 items-center justify-center rounded-full border border-white/12 bg-white/5 shadow-lg shadow-blue-900/20 md:size-11">
+            <span className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/10 via-indigo-500/5 to-transparent opacity-80" />
+            <span className="relative size-2.5 rounded-full bg-gradient-to-br from-slate-200 to-indigo-300 shadow-[0_0_12px_rgba(59,130,246,0.4)]" />
           </span>
           <span className="flex flex-col leading-none">
-            <span className="bg-gradient-to-r from-white via-blue-100 to-violet-200 bg-clip-text text-base font-semibold text-transparent md:text-lg">
+            <span className="bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-base font-semibold text-transparent md:text-lg">
               {NAV_BRAND.displayName}
             </span>
             <span className="mt-1 hidden text-[11px] font-medium text-white/40 md:block">
